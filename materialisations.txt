@@ -1,0 +1,50 @@
+Materialisations overview
+
+1. View (It is a default Materialisations, If you don't specify it.)
+Use it
+- You want a lightweight representation.
+- You don't reuse data too often.
+
+Don't use it
+- You read data from the same model several times.
+
+Remark: 
+- Don't recreate after every execution.
+- When you access the view the underlying select command have to execute then
+it doesn't suite for the model that read several times.
+
+2. Table
+Use it
+- You read from this model repeatedly.
+
+Don't use it
+- Bulding single-use models.
+- Your model is populated incrementally.
+
+Remark: 
+- Everytime that you rerun the dbt this table will be recreated. (Need a time 
+to run for creation)
+- It gain advantage after builded then it faster to get transform data.
+
+3. Incremental (Table appends)
+Use it
+- Fact tables
+- Appends to tables
+
+Don't use it
+- You want to update historical records
+
+Remark:
+- Don't want to recreate table every time. 
+- It will appends data to the table.
+
+Ephemeral (CTEs)
+Use it
+- You merely want an alias to your date.
+
+Don't use it
+- You read from the same model several times.
+
+Remark:
+- Want to implement intermedia step between model and we don't want to publish
+or advertise it in the data warehouse.

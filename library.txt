@@ -1,0 +1,3 @@
+pip3 install dbt-snoflake
+
+create .dbt folder -> mkdir ~/.dbt
