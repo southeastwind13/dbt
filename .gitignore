@@ -1,3 +1,23 @@
-venv/*
+# Storage
+.DS_Store
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Virtual environment
+venv/
+
+# Driver
+driver/chromedriver
+
+# C Excecution
+*.so
+
+# Secret Key
+secret.yaml
+secret.json
+
+# log
 dbt.log
