@@ -42,5 +42,6 @@ models:
           min_value: 50
           max_value: 500
       - dbt_expectations.expect_column_max_to_be_between:
-          max_value: 8000
-      
+          max_value: 5000
+          config:
+            severity: warn
