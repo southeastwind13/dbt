@@ -1,0 +1,25 @@
+version: 2
+
+sources: 
+  - name: airbnb
+    schema: raw
+    tables:
+      - name: listings            # Alias name for table
+        identifier: raw_listings  # The real name of the table in the dwh.
+      
+      - name: hosts 
+        identifier: raw_hosts
+      
+      - name: reviews
+        identifier: raw_reviews
+        # Check data is ingested properly.
+        loaded_at_field: date # The field 
+        freshness:
+          warn_after:
+            count: 1
+            period: hour
+          error_after:
+            count: 2
+            period: hour
+
+# sources.yml is a aliases to actual tables in Data Warehouse

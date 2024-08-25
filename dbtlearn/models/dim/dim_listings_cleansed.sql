@@ -14,7 +14,7 @@ SELECT
  room_type,
  -- If minimium night is zero then set it to one.
  CASE
-    WHEN minimum_nights > 0 THEN 1
+    WHEN minimum_nights <= 0 THEN 1
     ELSE minimum_nights
  END AS minimum_nights,
  host_id,
