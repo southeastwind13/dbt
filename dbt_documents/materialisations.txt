@@ -48,3 +48,13 @@ Don't use it
 Remark:
 - Want to implement intermedia step between model and we don't want to publish
 or advertise it in the data warehouse.
+
+
+Hooks
+- Hooks are SQLs that are executed at predefined times.
+- Hooks can be configured on the project, subfloder, or model levle.
+- Hook types:
+    - on_run_start: executed at the start of dbt {run, seed, snapshot}
+    - on_run_end: executed at the end of dbt {run, seed, snapshot}
+    - pre-hook: executed before model/seed/snapshot is built
+    - post-hook: executed after model/seed/snapshot

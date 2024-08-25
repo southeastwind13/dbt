@@ -1,0 +1,15 @@
+dbt run
+dbt debug
+dbt deps
+dbt compile -> Check setting and connection work properly.
+dbt source freshness -> Check the refreshness of data base on setting.
+dbt snapshot -> Create snapshot base on the settings
+dbt docs generate -> generate documentation (Need to run before dbt docs serve)
+dbt docs serve
+
+cat ~/.dbt/profiles.yml -> Display a dbt profile (Where it store?)
+
+Option
+1. --select -> To run or test on specific file.
+e.g. dbt test --select file_name
+

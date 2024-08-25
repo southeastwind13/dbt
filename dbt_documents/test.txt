@@ -1,0 +1,10 @@
+Tests overview
+
+- They are 2 types of tests
+1. Singular tests are SQL queries stored in test are expected to return empty.
+2. Build-in tests (Generic test) e.g. unique, nut_null, accepted_values, relationship.
+
+- You can define your own custom generic tests or import tests from dbt package.
+- When test is failed, we can use 'cat' command to check the test failed.
+  cat + error parth from result
+  e.g. cat target/compiled/dbtlearn/models/schema.yml/accepted_values_dim_listings_c_4af51c2452d6f0cd9501f60a32e7fae6.sql
