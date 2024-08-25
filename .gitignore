@@ -21,3 +21,8 @@ secret.json
 
 # log
 dbt.log
+
+# dbt path
+target/
+dbt_packages/
+logs/
