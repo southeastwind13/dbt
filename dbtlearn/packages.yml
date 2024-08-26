@@ -5,5 +5,5 @@ packages:
   - package: calogica/dbt_expectations
     version: [">=0.10.0", "<0.11.0"]
 
-  # - package: dbt-labs/dbt_project_evaluator
-  #   version: 0.13.1
+  - package: dbt-labs/dbt_project_evaluator
+    version: 0.13.1
