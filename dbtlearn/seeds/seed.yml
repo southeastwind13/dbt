@@ -1,0 +1,6 @@
+version: 2
+
+seeds:
+  - name: seed_full_moon_dates
+    config:
+        alias: full_mood_dates
