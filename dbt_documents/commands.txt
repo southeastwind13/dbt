@@ -1,11 +1,18 @@
-dbt run
-dbt debug
-dbt deps
+dbt deps            -> Downliad all dependencies
+dbt debug           -> It is a utility function to test the database connection and display information for debugging purposes
+dbt run             -> Runs the models you defined in your project
+dbt build           -> Builds and tests your selected resources such as models, seeds, snapshots, and tests
+dbt build --select package:dbt_project_evaluator -> Builds and evaluate the project best on dbt_project_evaluator (https://dbt-labs.github.io/dbt-project-evaluator/latest/rules/)
+dbt test            -> Executes the tests you defined for your project
+
+dbt run-operation {macro name} -> command to run the macro command
 dbt compile -> Check setting and connection work properly.
 dbt source freshness -> Check the refreshness of data base on setting.
 dbt snapshot -> Create snapshot base on the settings
 dbt docs generate -> generate documentation (Need to run before dbt docs serve)
 dbt docs serve
+dbt test --select source:airbnb.listings -> Run specific test from source
+dbt test --debug --select source:airbnb.listings -> Run specific test from source
 
 cat ~/.dbt/profiles.yml -> Display a dbt profile (Where it store?)
 

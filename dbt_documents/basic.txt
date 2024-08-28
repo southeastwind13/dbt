@@ -1,0 +1,138 @@
+1. Install dbt
+    1.1 Create virtual environment and activate it.
+    - python -m venv dbt-env				
+    - source dbt-env/bin/activat
+    1.2 Install dbt core
+    -python -m pip install dbt-core
+    1.3 Install dbt-adapter
+    - python -m pip install dbt-databricks
+    - list of dbt-adapter (https://docs.getdbt.com/docs/trusted-adapters)
+
+
+2. profile.yml
+- File that contains the connection details for your data platform.
+- The target variable contains information about your connection to the warehouse.
+- Exmaple data that conatains
+  - profile name: The name of the profile. It has to store with in the dbt_project.yml
+  - target: This is the default target your dbt project will use. (Defualt is dev)
+  - type: The type of data warehouse you are connecting to
+  - schema: The default schema that dbt will build objects in.
+  - threads: The number of threads the dbt project will run on.
+  - * It stores credentials to connect to the dataware house (account, database, etc)
+
+
+3. dbt_project.yml
+- It defines the directory of the dbt project and other project configurations.
+- name: Your project’s name in snake case
+- version: Version of your project
+- require-dbt-version: Restrict your project to only work with a range of dbt Core versions
+- profile: The profile dbt uses to connect to your data platform. (Link to profile.yml)
+- paths: Dirctories paths of each sub module (model, seed, test, etc.)
+
+
+4. packages.yml
+- It stores the packages
+
+
+5. Using Thread
+- When dbt runs, it creates a directed acyclic graph (DAG) of links between models. 
+- The number of threads represents the maximum number of paths through the graph dbt may work on at once.
+– Increasing the number of threads can minimize the run time of your project.
+- It can specify in profile.yml
+- It can pass as parameter option when executing a dbt command (--threads).
+
+
+6. Package
+- Leverage these dbt packages to streamline your workflow
+- dbt_codegen: Use the package to help you generate YML files for your models and sources and SQL files for your staging models.
+- dbt_utils: The package contains macros useful for daily development.
+- dbt_project_evaluator: The package compares your dbt project against a list of our best practices and provides suggestions and guidelines on how to update your models.
+  (https://dbt-labs.github.io/dbt-project-evaluator/latest/rules/)
+- dbt_expectations: The package contains many tests beyond those built into dbt.
+- dbt_audit_helper: The package contains many tests beyond those built into dbt.
+- dbt_artifacts: The package saves information about your dbt runs directly to your data platform so that you can track the performance of models over time.
+- dbt_meta_testing: This package checks that your dbt project is sufficiently tested and documented.
+
+
+7. Tips and tricks
+- https://docs.getdbt.com/docs/build/dbt-tips#package-tips
+
+
+8. Build DAG
+- When you execute dbt run, you are running a model that will transform your data without that data ever leaving your warehouse.
+
+
+9. SQL model
+- A SQL model is a select statement. Models are defined in .sql files (typically in your models directory):
+- Each .sql file contains one model / select statement
+- The model name is inherited from the filename.
+- We strongly recommend using underscores for model names, not dots. For example, use models/my_model.sql
+- Models can be nested in subdirectories within the models directory.
+
+
+10. Configuration models
+- Configurations are "model settings" that can be set in your dbt_project.yml file, and in your model file using a config block. 
+- we can config tags, custom shcemas, aliases, hooks
+- example config via the dbt_project.yml
+'''
+models:
+  jaffle_shop: # this matches the `name:`` config
+    +materialized: view # this applies to all models in the current project
+    marts:
+      +materialized: table # this applies to all models in the `marts/` directory
+      marketing:
+        +schema: marketing # this applies to all models in the `marts/marketing/`` directory
+'''
+- example config via the model file.
+'''
+{{ config(
+    materialized="view",
+    schema="marketing"
+) }}
+
+with customer_orders as ...
+'''
+
+
+11. Custom schema (https://docs.getdbt.com/docs/build/custom-schemas)
+- By default, all dbt models are built in the schema specified in profile's target. This default schema is called your target schema.
+- For dbt projects with lots of models, it's common to build models across multiple schemas and group similar models together. 
+  e.g.
+  - Group models based on the business unit using the model, creating schemas such as core, marketing, finance and support.
+  - Hide intermediate models in a staging schema, and only present models that should be queried by an end user in an analytics schema.
+- dbt generates the schema name for a model by appending the custom schema to the target schema. For example, <target_schema>_<custom_schema>.
+  e.g. 
+  - Target schema: alice_dev	
+  - Custom schema: marketing
+  - Result schema: alice_dev_marketing
+- To specify a custom schema for a model, use the schema configuration key. As with any configuration, you can do one of the following
+  - apply this configuration to a specific model by using a config block within a model
+  '''
+  {{ config(schema='marketing') }}
+
+  select ...
+  '''
+  - Apply it to a subdirectory of models by specifying it in your dbt_project.yml file.
+  '''
+  models:
+  my_project:
+    marketing:
+      +schema: marketing    
+  '''
+
+- dbt has macro "generate_schema_name" to determine the name of the schema that a model should be built in.
+- If your dbt project has a custom macro called generate_schema_name, dbt will use it instead of the default macro.
+  - file: macros/generate_schema_name.sql 
+  - Warning: Don't replace `default_schema` in the macro
+
+12. Model properties (https://docs.getdbt.com/reference/model-properties)
+- Models properties can be declared in .yml files in your models/ directory 
+- 
+
+
+13. Seed configuration (https://docs.getdbt.com/reference/seed-configs)
+- Resource-specific configurations are applicable to only one dbt resource type rather than multiple resource types.
+- ou can define these settings in
+  - project file (dbt_project.yml)
+  - property file (models/properties.yml
+  - models ({{ config() }})
